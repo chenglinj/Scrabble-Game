@@ -1,0 +1,32 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group 'og.scrabble'
+version '0.3-ALPHA'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'http://maven.bestsolution.at/efxclipse-releases/'
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'com.google.guava:guava:26.0-jre'
+    compile files('libs/anchorfx_mod.jar')
+    compile group: 'org.fxmisc.richtext', name: 'richtextfx', version: '0.9.1'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'client.ClientMain'
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
